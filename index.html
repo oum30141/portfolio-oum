@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oum Sirichai | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
+            background-color: #000;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Video Carousel Styles */
+        .video-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .video-carousel {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 40px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .video-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .video-slide {
+            flex: 0 0 auto;
+            width: 280px;
+        }
+
+        .video-slide.landscape {
+            width: 500px;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .carousel-btn.prev {
+            left: 0;
+        }
+
+        .carousel-btn.next {
+            right: 0;
+        }
+
+        .carousel-btn svg {
+            width: 24px;
+            height: 24px;
+            color: #333;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: background 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background: #111;
+        }
+    </style>
+</head>
+<body class="bg-white text-black antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-8 py-4 md:py-6 bg-white/90 backdrop-blur-sm">
+        <a href="#" class="text-base md:text-lg font-semibold tracking-widest hover:opacity-60 transition">OUM SIRICHAI</a>
+        
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-12 text-xs tracking-[0.2em]">
+            <a href="#work" class="hover:text-gray-400 transition">WORK</a>
+            <a href="#skills" class="hover:text-gray-400 transition">SKILLS</a>
+            <a href="#contact" class="hover:text-gray-400 transition">CONTACT</a>
+        </div>
+        
+        <!-- Mobile Menu Button (Hamburger) -->
+        <button id="menuBtn" class="md:hidden flex flex-col justify-center items-center w-8 h-8 relative z-50">
+            <span class="block w-6 h-0.5 bg-black transition-all duration-300 origin-center" id="line1"></span>
+            <span class="block w-6 h-0.5 bg-black mt-1.5 transition-all duration-300" id="line2"></span>
+            <span class="block w-6 h-0.5 bg-black mt-1.5 transition-all duration-300 origin-center" id="line3"></span>
+        </button>
+    </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="menuOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
+    
+    <!-- Mobile Menu Panel (Slide from Right) -->
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 flex flex-col transform translate-x-full transition-transform duration-500 ease-out md:hidden">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-center px-6 py-5 border-b border-gray-100">
+            <span class="text-sm font-semibold tracking-widest">MENU</span>
+            <button id="closeMenu" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Menu Items -->
+        <nav class="flex-1 flex flex-col justify-center px-8">
+            <a href="#work" class="mobile-link group flex items-center justify-between py-5 border-b border-gray-100 hover:border-black transition-all duration-300">
+                <span class="text-2xl font-light tracking-tight group-hover:translate-x-2 transition-transform duration-300">Work</span>
+                <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+            <a href="#skills" class="mobile-link group flex items-center justify-between py-5 border-b border-gray-100 hover:border-black transition-all duration-300">
+                <span class="text-2xl font-light tracking-tight group-hover:translate-x-2 transition-transform duration-300">Skills</span>
+                <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+            <a href="#contact" class="mobile-link group flex items-center justify-between py-5 border-b border-gray-100 hover:border-black transition-all duration-300">
+                <span class="text-2xl font-light tracking-tight group-hover:translate-x-2 transition-transform duration-300">Contact</span>
+                <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+            </a>
+        </nav>
+        
+        <!-- Footer -->
+        <div class="px-8 py-8 border-t border-gray-100">
+            <p class="text-xs tracking-[0.2em] text-gray-400 uppercase mb-4">Follow</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-sm tracking-wider hover:text-gray-400 transition">Instagram</a>
+                <a href="#" class="text-sm tracking-wider hover:text-gray-400 transition">Behance</a>
+                <a href="#" class="text-sm tracking-wider hover:text-gray-400 transition">Vimeo</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="h-screen flex flex-col justify-center items-center text-center px-4">
+        <h1 class="text-6xl md:text-8xl font-light tracking-tighter mb-4">OUM SIRICHAI</h1>
+        <p class="text-sm tracking-[0.3em] text-gray-400 uppercase">EDITOR • GRAPHIC DESING</p>
+        <div class="absolute bottom-12 animate-bounce">
+            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="px-8 pb-32 pt-24">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-light tracking-tighter mb-4">SELECTED WORK</h2>
+            <p class="text-xs tracking-[0.2em] text-gray-400 uppercase">Creative Projects</p>
+        </div>
+        
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 text-[10px] tracking-[0.2em] font-semibold">
+            <button class="filter-btn active border-b border-black pb-1" data-filter="all">ALL</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="video">VIDEO EDITING</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="graphic">GRAPHIC DESIGN</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="motion">MOTION GRAPHICS</button>
+        </div>
+
+        <!-- Grid Layout (for ALL and GRAPHIC) -->
+        <div id="gridLayout" class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto">
+            
+            <!-- Project - Microsoft MMW4 (Portrait) - TOP -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/MICROSOFT1_MMW4.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Microsoft MMW4</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project - Logitech Keyboard (Portrait) - TOP -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/logitech keyboard .mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Logitech Keyboard</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project - KREAFUNK aCube (Portrait) - TOP -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/KREAFUNK aCube.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">KREAFUNK aCube</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project - Glorious Keyboard (Portrait) - TOP -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/keyboard glorious  .mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Glorious Keyboard</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 3 - Brand Chicken Extract (Portrait) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <iframe src="https://player.vimeo.com/video/1177842351?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Brand Chicken Extract VO"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Brand Chicken Extract</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 3b - Brand Chicken Extract Alt (Portrait) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <iframe src="https://player.vimeo.com/video/1177842933?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Brand Chicken Extract"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Brand Chicken Extract</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 1 - Motion Graphics (Portrait) -->
+            <div class="project-card fade-in" data-category="motion">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/motions/VN NEW SHORT INTRO APP FINAL NO font .mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Short Intro</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Motion Graphics / Animation</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 1b - VN Application (Portrait) -->
+            <div class="project-card fade-in" data-category="motion">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/motions/VN application.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">VN Application</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Motion Graphics / Animation</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 4 - Microsoft Headset (Portrait) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/MICROSOFT1 Headset 7.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">MICROSOFT Headset</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 5 - Computer Set Ava (Portrait) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/COMPUTER SET Ava .mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">COMPUTER SET Avangelion</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 6 - MS USB (Portrait) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;">
+                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                        <source src="assets/videos/MS USB 3.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">MS USB</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 7 - JIB Review Microsoft (Landscape) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                    <iframe src="https://player.vimeo.com/video/1177817755?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="JIB Review Microsoft"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">JIB Review Microsoft</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Review</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 8 - JIB Review Windows (Landscape) -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                    <iframe src="https://player.vimeo.com/video/1177841540?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Windows 10 vs 11"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Windows 10 vs 11</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Review</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            
+
+            <!-- Project - Magazine May 2022 -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                    <iframe src="https://player.vimeo.com/video/1177814119?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Magazine May 2022"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Magazine May 2022</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2022</span>
+                </div>
+            </div>
+
+            <!-- Project - Wireless CCTV -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                    <iframe src="https://player.vimeo.com/video/1177815785?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Wireless CCTV"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Wireless CCTV</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project - Comset Evan -->
+            <div class="project-card fade-in" data-category="video">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                    <iframe src="https://player.vimeo.com/video/1177843472?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Comset Evan"></iframe>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Comset Evan</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2024</span>
+                </div>
+            </div>
+
+            <!-- Project 9 - Graphic Design Placeholder 2 -->
+            <!-- <div class="project-card fade-in" data-category="graphic">
+                <div class="aspect-video bg-gray-100 overflow-hidden relative group cursor-pointer">
+                    <div class="w-full h-full flex items-center justify-center text-gray-300 group-hover:bg-gray-200 transition-all duration-300">
+                        <span class="text-sm tracking-widest">GRAPHIC PLACEHOLDER</span>
+                    </div>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Social Media Campaign</h3>
+                        <p class="text-[10px] text-gray-400 mt-1 uppercase">Graphic Design / Social</p>
+                    </div>
+                    <span class="text-[10px] text-gray-300">2023</span>
+                </div>
+            </div> -->
+
+        </div>
+
+        <!-- Carousel Layout (for VIDEO and MOTION) -->
+        <div id="carouselLayout" class="hidden">
+            
+            <!-- VIDEO EDITING Section -->
+            <div id="videoSection" class="mb-16 hidden">
+                <!-- Portrait Videos Section -->
+                <div class="mb-12">
+                    <div class="flex items-center justify-between mb-6 px-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-12 border-2 border-gray-400 rounded-sm"></div>
+                            <h3 class="text-sm font-medium uppercase tracking-wider">Portrait Videos</h3>
+                        </div>
+                        <span class="text-xs text-gray-400">9:16 Format</span>
+                    </div>
+                    <div class="video-carousel-container">
+                        <button class="carousel-btn prev" onclick="scrollCarousel('portraitCarousel', -1)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <div class="video-carousel" id="portraitCarousel">
+                            <!-- Portrait Video - Microsoft MMW4 (TOP) -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/MICROSOFT1_MMW4.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Microsoft MMW4</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video - Logitech Keyboard (TOP) -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/logitech keyboard .mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Logitech Keyboard</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video - KREAFUNK aCube (TOP) -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/KREAFUNK aCube.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">KREAFUNK aCube</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video - Glorious Keyboard (TOP) -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/keyboard glorious  .mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Glorious Keyboard</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video 1 - Brand Chicken Extract -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative" style="aspect-ratio: 9/16;">
+                                    <iframe src="https://player.vimeo.com/video/1177842351?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Brand Chicken Extract VO"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Brand Chicken Extract</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video 1b - Brand Chicken Extract (Alt) -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative" style="aspect-ratio: 9/16;">
+                                    <iframe src="https://player.vimeo.com/video/1177842933?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Brand Chicken Extract"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Brand Chicken Extract</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video 2 - Microsoft Headset -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/MICROSOFT1 Headset 7.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">MICROSOFT Headset</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video 3 - Computer Set Ava -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/COMPUTER SET Ava .mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">COMPUTER SET Avangelion</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Portrait Video 4 - MS USB -->
+                            <div class="video-slide project-card fade-in" data-category="video" data-format="portrait">
+                                <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                    <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                        <source src="assets/videos/MS USB 3.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">MS USB</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next" onclick="scrollCarousel('portraitCarousel', 1)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Landscape Videos Section -->
+                <div>
+                    <div class="flex items-center justify-between mb-6 px-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-8 border-2 border-gray-400 rounded-sm"></div>
+                            <h3 class="text-sm font-medium uppercase tracking-wider">Landscape Videos</h3>
+                        </div>
+                        <span class="text-xs text-gray-400">16:9 Format</span>
+                    </div>
+                    <div class="video-carousel-container">
+                        <button class="carousel-btn prev" onclick="scrollCarousel('landscapeCarousel', -1)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <div class="video-carousel" id="landscapeCarousel">
+                            <!-- Landscape Video 1 - JIB Review Microsoft -->
+                            <div class="video-slide landscape project-card fade-in" data-category="video" data-format="landscape">
+                                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                                    <iframe src="https://player.vimeo.com/video/1177817755?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="JIB Review Microsoft"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">JIB Review Microsoft</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Review</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Landscape Video 2 - JIB Review Windows -->
+                            <div class="video-slide landscape project-card fade-in" data-category="video" data-format="landscape">
+                                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                                    <iframe src="https://player.vimeo.com/video/1177841540?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Windows 10 vs 11"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Windows 10 vs 11</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Review</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                        
+
+                            <!-- Landscape Video 4 - Magazine May 2022 -->
+                            <div class="video-slide landscape project-card fade-in" data-category="video" data-format="landscape">
+                                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                                    <iframe src="https://player.vimeo.com/video/1177814119?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Magazine May 2022"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Magazine May 2022</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2022</span>
+                                </div>
+                            </div>
+
+                            <!-- Landscape Video 6 - Wireless CCTV -->
+                            <div class="video-slide landscape project-card fade-in" data-category="video" data-format="landscape">
+                                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                                    <iframe src="https://player.vimeo.com/video/1177815785?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Wireless CCTV"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Wireless CCTV</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+
+                            <!-- Landscape Video 7 - Comset Evan -->
+                            <div class="video-slide landscape project-card fade-in" data-category="video" data-format="landscape">
+                                <div class="aspect-video bg-gray-100 overflow-hidden relative">
+                                    <iframe src="https://player.vimeo.com/video/1177843472?badge=0&autopause=0&player_id=0&app_id=58479&byline=0&title=0&portrait=0&sharing=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" class="w-full h-full" title="Comset Evan"></iframe>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="text-sm font-medium uppercase tracking-wider">Comset Evan</h4>
+                                    <p class="text-[10px] text-gray-400 mt-1 uppercase">Video Editing / Commercial</p>
+                                    <span class="text-[10px] text-gray-300">2024</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-btn next" onclick="scrollCarousel('landscapeCarousel', 1)">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOTION GRAPHICS Section -->
+            <div id="motionSection" class="mb-16 hidden">
+                <div class="flex items-center justify-between mb-6 px-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-12 border-2 border-gray-400 rounded-sm"></div>
+                        <h3 class="text-sm font-medium uppercase tracking-wider">Motion Graphics</h3>
+                    </div>
+                    <span class="text-xs text-gray-400">9:16 Format</span>
+                </div>
+                <div class="video-carousel-container">
+                    <button class="carousel-btn prev" onclick="scrollCarousel('motionCarousel', -1)">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <div class="video-carousel" id="motionCarousel">
+                        <!-- Motion Graphics 1 - Short Intro -->
+                        <div class="video-slide project-card fade-in" data-category="motion">
+                            <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                    <source src="assets/motions/VN NEW SHORT INTRO APP FINAL NO font .mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="text-sm font-medium uppercase tracking-wider">Short Intro</h4>
+                                <p class="text-[10px] text-gray-400 mt-1 uppercase">Motion Graphics / Animation</p>
+                                <span class="text-[10px] text-gray-300">2024</span>
+                            </div>
+                        </div>
+
+                        <!-- Motion Graphics 2 - VN Application -->
+                        <div class="video-slide project-card fade-in" data-category="motion">
+                            <div class="bg-gray-100 overflow-hidden relative group cursor-pointer video-container" style="aspect-ratio: 9/16;">
+                                <video class="w-full h-full object-cover" loop playsinline preload="metadata">
+                                    <source src="assets/motions/VN application.mp4" type="video/mp4">
+                                </video>
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-white opacity-70 group-hover:opacity-100 transition-opacity duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="text-sm font-medium uppercase tracking-wider">VN Application</h4>
+                                <p class="text-[10px] text-gray-400 mt-1 uppercase">Motion Graphics / Animation</p>
+                                <span class="text-[10px] text-gray-300">2024</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn next" onclick="scrollCarousel('motionCarousel', 1)">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Scroll Hint (only for carousel) -->
+        <p id="scrollHint" class="text-center text-xs text-gray-400 mb-8 hidden">← Scroll horizontally to see more videos →</p>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="px-8 py-32 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-5xl font-light tracking-tighter mb-4">SKILLS</h2>
+                <p class="text-xs tracking-[0.2em] text-gray-400 uppercase">Tools & Expertise</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                
+                <!-- Video Editing -->
+                <div class="fade-in text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-sm font-medium uppercase tracking-wider mb-4">Video Editing</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">PREMIERE PRO</span>
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">DAVINCI RESOLVE</span>
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">FINAL CUT</span>
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">CAP CUT</span>
+                    </div>
+                </div>
+                
+                <!-- Motion Graphics -->
+                <div class="fade-in text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-sm font-medium uppercase tracking-wider mb-4">Motion Graphics</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">AFTER EFFECTS</span>
+                        
+                    </div>
+                </div>
+                
+                <!-- Graphic Design -->
+                <div class="fade-in text-center">
+                    <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-sm font-medium uppercase tracking-wider mb-4">Graphic Design</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">PHOTOSHOP</span>
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">ILLUSTRATOR</span>
+                        <span class="px-4 py-2 border border-gray-300 text-xs tracking-wider">FIGMA</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact Section -->
+    <footer id="contact" class="bg-black text-white px-4 md:px-8 flex flex-col min-h-[400px] md:h-[440px]">
+        <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col justify-center py-8 md:py-6">
+            <p class="text-xs tracking-[0.3em] text-gray-500 uppercase mb-6 md:mb-8 fade-in">GET IN TOUCH</p>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-8 fade-in">
+                <!-- Left: Heading -->
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-light tracking-tighter">
+                        Let's create<br>
+                        something great.
+                    </h2>
+                </div>
+                
+                <!-- Right: Contact info -->
+                <div class="w-full md:w-1/2 md:text-right">
+                    <p class="text-gray-400 text-sm mb-6">
+                        Open to collaborations, freelance projects,<br class="hidden md:block">
+                        and full-time opportunities.
+                    </p>
+                    
+                    <!-- Email + Send Button (Desktop: inline, Mobile: stacked) -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-0 mb-6 md:justify-end">
+                        <a href="mailto:oum.30142@gmail.com" class="inline-flex items-center px-4 md:px-6 border border-gray-600 text-base md:text-lg lg:text-xl font-light tracking-wider hover:bg-[#3a3a3a] transition truncate" style="background-color: #2E2E2E; height: 52px;">
+                            oum.30142@gmail.com
+                        </a>
+                        <a href="mailto:oum.30142@gmail.com" class="inline-flex items-center justify-center gap-2 px-6 text-xs tracking-[0.2em] uppercase text-black hover:bg-gray-200 transition" style="background-color: #FFFFFF; height: 52px;">
+                            Send
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright + Social -->
+        <div class="max-w-7xl mx-auto w-full py-6 md:py-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+            <p class="text-center md:text-left mb-4 md:mb-0">© 2026 Sirichai Panyakra · All rights reserved</p>
+            <div class="flex space-x-4 md:space-x-6">
+                <a href="https://www.instagram.com/oum_lll/" class="hover:text-white transition">INSTAGRAM</a>
+                <a href="#" class="hover:text-white transition">BEHANCE</a>
+                <a href="#" class="hover:text-white transition">VIMEO</a>
+                <a href="#" class="hover:text-white transition">LINKEDIN</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle (Slide from Right)
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            menuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            menuOverlay.classList.add('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden';
+            
+            // Animate menu items
+            setTimeout(() => {
+                mobileLinks.forEach(link => {
+                    link.classList.remove('translate-x-8', 'opacity-0');
+                });
+            }, 100);
+        }
+
+        function closeMenuFunc() {
+            mobileMenu.classList.add('translate-x-full');
+            menuOverlay.classList.add('opacity-0', 'pointer-events-none');
+            menuOverlay.classList.remove('opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = '';
+            
+            // Reset menu items
+            mobileLinks.forEach(link => {
+                link.classList.add('translate-x-8', 'opacity-0');
+            });
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFunc);
+        menuOverlay.addEventListener('click', closeMenuFunc);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenuFunc);
+        });
+
+        // Filter Functionality with Layout Switching
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const gridLayout = document.getElementById('gridLayout');
+        const carouselLayout = document.getElementById('carouselLayout');
+        const scrollHint = document.getElementById('scrollHint');
+        const videoSection = document.getElementById('videoSection');
+        const motionSection = document.getElementById('motionSection');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'border-b', 'border-black');
+                    b.classList.add('text-gray-300');
+                });
+                btn.classList.add('active', 'border-b', 'border-black');
+                btn.classList.remove('text-gray-300');
+
+                const filter = btn.dataset.filter;
+
+                // Switch layout based on filter
+                if (filter === 'video') {
+                    // Show carousel layout for VIDEO
+                    gridLayout.classList.add('hidden');
+                    carouselLayout.classList.remove('hidden');
+                    videoSection.classList.remove('hidden');
+                    motionSection.classList.add('hidden');
+                    scrollHint.classList.remove('hidden');
+                } else if (filter === 'motion') {
+                    // Show carousel layout for MOTION
+                    gridLayout.classList.add('hidden');
+                    carouselLayout.classList.remove('hidden');
+                    videoSection.classList.add('hidden');
+                    motionSection.classList.remove('hidden');
+                    scrollHint.classList.remove('hidden');
+                } else {
+                    // Show grid for ALL and GRAPHIC
+                    gridLayout.classList.remove('hidden');
+                    carouselLayout.classList.add('hidden');
+                    videoSection.classList.add('hidden');
+                    motionSection.classList.add('hidden');
+                    scrollHint.classList.add('hidden');
+
+                    // Filter grid items
+                    const gridCards = gridLayout.querySelectorAll('.project-card');
+                    gridCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+
+        // Video Click Play/Pause with Sound
+        const videoContainers = document.querySelectorAll('.video-container');
+        videoContainers.forEach(container => {
+            const video = container.querySelector('video');
+            const playIcon = container.querySelector('svg');
+            if (video) {
+                // Click to play/pause
+                container.addEventListener('click', () => {
+                    if (video.paused) {
+                        // Pause all other videos first
+                        videoContainers.forEach(otherContainer => {
+                            const otherVideo = otherContainer.querySelector('video');
+                            if (otherVideo && otherVideo !== video && !otherVideo.paused) {
+                                otherVideo.pause();
+                            }
+                        });
+                        video.play();
+                        if (playIcon) playIcon.style.opacity = '0';
+                    } else {
+                        video.pause();
+                        if (playIcon) playIcon.style.opacity = '0.7';
+                    }
+                });
+
+                // Show play icon when video ends
+                video.addEventListener('ended', () => {
+                    if (playIcon) playIcon.style.opacity = '0.7';
+                });
+
+                // Show play icon when video is paused
+                video.addEventListener('pause', () => {
+                    if (playIcon) playIcon.style.opacity = '0.7';
+                });
+
+                // Hide play icon when playing
+                video.addEventListener('play', () => {
+                    if (playIcon) playIcon.style.opacity = '0';
+                });
+            }
+        });
+
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Video Carousel Scroll Function
+        function scrollCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const scrollAmount = 320;
+            carousel.scrollBy({
+                left: scrollAmount * direction,
+                behavior: 'smooth'
+            });
+        }
+
+        // Optional: Touch/drag scroll for mobile - apply to all carousels
+        const carousels = document.querySelectorAll('.video-carousel');
+        carousels.forEach(carousel => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            carousel.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            carousel.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            carousel.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 2;
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+        carousel.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - carousel.offsetLeft;
+            scrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        carousel.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        carousel.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - carousel.offsetLeft;
+            const walk = (x - startX) * 2;
+            carousel.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+
+</body>
+</html>
