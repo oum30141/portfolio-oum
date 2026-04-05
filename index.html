@@ -34,10 +34,27 @@
         /* Lightbox Styles */
         #lightbox {
             display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
         }
         #lightbox.active {
             display: flex;
             opacity: 1;
+        }
+        #lightbox-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        #lightbox-img {
+            max-width: 95vw;
+            max-height: 90vh;
+            object-fit: contain;
         }
 
         /* Back to Top Button */
@@ -1632,13 +1649,13 @@
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
         <div id="lightbox-bg" class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
-        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
-            <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors bg-black/30 rounded-full hover:bg-black/50">
+        <div id="lightbox-content">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors bg-black/30 rounded-full hover:bg-black/50 z-20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
-            <img id="lightbox-img" src="" alt="" class="max-w-[95vw] max-h-[90vh] object-contain rounded-lg shadow-2xl">
+            <img id="lightbox-img" src="" alt="" class="rounded-lg shadow-2xl">
             <p id="lightbox-caption" class="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm tracking-wider"></p>
         </div>
     </div>
