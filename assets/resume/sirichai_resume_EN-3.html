@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sirichai Panyakra – Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --mid: #3d4150;
+    --soft: #6b7080;
+    --muted: #9ca3af;
+    --rule: #e2e4ea;
+    --accent: #1a56db;
+    --accent-light: #dbeafe;
+    --accent-2: #0e9f6e;
+    --bg: #ffffff;
+    --sidebar: #f4f6fb;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Navigation Bar */
+  .resume-nav {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--ink);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .back-btn:hover {
+    background: #2d2f3a;
+    transform: translateX(-2px);
+  }
+
+  .back-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .nav-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lang-switch {
+    display: flex;
+    background: #f4f6fb;
+    border-radius: 8px;
+    padding: 4px;
+  }
+
+  .lang-switch a {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--soft);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .lang-switch a.active {
+    background: #fff;
+    color: var(--accent);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .lang-switch a:hover:not(.active) {
+    color: var(--ink);
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .download-btn:hover {
+    background: #1e4db8;
+  }
+
+  .download-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Resume Container */
+  .resume-container {
+    padding: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 277mm;
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: 68mm 1fr;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--sidebar);
+    padding: 10mm 7mm 8mm 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 7mm;
+    border-right: 1px solid var(--rule);
+  }
+
+  .avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.5mm;
+  }
+
+  .avatar {
+    width: 22mm;
+    height: 22mm;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #3b82f6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .05em;
+    box-shadow: 0 4px 16px rgba(26,86,219,.25);
+  }
+
+  .name-block { text-align: center; }
+  .name-block .fullname {
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+  .name-block .role-tag {
+    margin-top: 1.5mm;
+    font-size: 7pt;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  .s-section { display: flex; flex-direction: column; gap: 2mm; }
+  .s-label {
+    font-size: 6.5pt;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-bottom: 1mm;
+    border-bottom: 1.5px solid var(--accent-light);
+    margin-bottom: 1mm;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 2mm;
+    font-size: 7.8pt;
+    color: var(--mid);
+    line-height: 1.4;
+  }
+  .contact-item .icon {
+    flex-shrink: 0;
+    width: 3.5mm;
+    margin-top: .3mm;
+    color: var(--accent);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm 3mm;
+  }
+  .info-item { display: flex; flex-direction: column; gap: .6mm; }
+  .info-item .ikey { font-size: 6.5pt; color: var(--muted); font-weight: 500; }
+  .info-item .ival { font-size: 7.5pt; color: var(--mid); font-weight: 600; }
+
+  .skill-list { display: flex; flex-direction: column; gap: 1.8mm; }
+  .skill-row { display: flex; align-items: center; gap: 2mm; }
+  .skill-name { font-size: 7.5pt; color: var(--mid); flex: 1; }
+  .skill-bar {
+    height: 2.5mm;
+    width: 18mm;
+    background: var(--rule);
+    border-radius: 99px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .skill-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), #3b82f6); }
+
+  .lang-grid { display: flex; flex-direction: column; gap: 1.8mm; }
+  .lang-row { display: flex; align-items: center; justify-content: space-between; }
+  .lang-name { font-size: 7.5pt; color: var(--mid); font-weight: 500; }
+  .lang-level { font-size: 7pt; color: var(--accent-2); font-weight: 600; }
+
+  /* ── MAIN ── */
+  .main {
+    padding: 10mm 9mm 8mm 8mm;
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+  }
+
+  .header-strip {
+    padding-bottom: 4mm;
+    border-bottom: 2px solid var(--ink);
+  }
+  .header-strip h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .header-strip .sub {
+    font-size: 8.5pt;
+    color: var(--soft);
+    margin-top: 1.5mm;
+    font-weight: 400;
+  }
+  .headline-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+    margin-top: 2.5mm;
+  }
+  .chip {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 7pt;
+    font-weight: 600;
+    padding: 1mm 3mm;
+    border-radius: 99px;
+    letter-spacing: .03em;
+  }
+
+  .m-section { display: flex; flex-direction: column; gap: 2.5mm; }
+  .m-label {
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+  }
+  .m-label::after {
+    content: '';
+    flex: 1;
+    height: 1.5px;
+    background: var(--rule);
+  }
+
+  .exp-block { display: flex; flex-direction: column; gap: 3.5mm; }
+
+  .exp-item { display: grid; grid-template-columns: 1fr auto; gap: 0 3mm; }
+  .exp-left { display: flex; flex-direction: column; gap: 1mm; }
+  .exp-company {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .exp-title {
+    font-size: 7.5pt;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .exp-duties {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .6mm;
+    margin-top: .8mm;
+  }
+  .exp-duties li {
+    font-size: 7.5pt;
+    color: var(--soft);
+    line-height: 1.45;
+    padding-left: 3.5mm;
+    position: relative;
+  }
+  .exp-duties li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 6pt;
+    top: .5mm;
+  }
+
+  .exp-right {
+    text-align: right;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1mm;
+  }
+  .exp-period {
+    font-size: 7pt;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .exp-salary {
+    font-size: 7pt;
+    color: var(--accent-2);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .divider { height: 1px; background: var(--rule); }
+
+  .edu-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1mm;
+    align-items: start;
+  }
+  .edu-school { font-size: 8.5pt; font-weight: 700; color: var(--ink); }
+  .edu-degree { font-size: 7.5pt; color: var(--soft); margin-top: .5mm; }
+  .edu-year { font-size: 7pt; color: var(--muted); font-weight: 500; }
+  .edu-gpa {
+    display: inline-flex;
+    align-items: center;
+    gap: 1mm;
+    background: #f0fdf4;
+    color: var(--accent-2);
+    font-size: 7pt;
+    font-weight: 700;
+    padding: .5mm 2mm;
+    border-radius: 4px;
+    margin-top: 1mm;
+  }
+
+  .target-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+  }
+  .target-chip {
+    background: #f8f9fc;
+    border: 1px solid var(--rule);
+    color: var(--mid);
+    font-size: 7.5pt;
+    font-weight: 500;
+    padding: 1mm 3mm;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+  }
+  .target-chip .tc-icon { font-size: 8pt; }
+
+  .salary-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 2mm;
+    background: var(--accent-light);
+    border: 1px solid #bfdbfe;
+    color: var(--accent);
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 1.5mm 4mm;
+    border-radius: 8px;
+    margin-top: 1mm;
+  }
+
+  @media print {
+    html, body { background: none; padding: 0; }
+    .resume-nav, .resume-container { padding: 0; }
+    .resume-nav { display: none; }
+    .page { box-shadow: none; }
+  }
+
+  @media (max-width: 800px) {
+    .resume-nav {
+      padding: 10px 16px;
+    }
+    .nav-title {
+      display: none;
+    }
+    .resume-container {
+      padding: 16px;
+    }
+    .page {
+      width: 100%;
+      max-width: 100%;
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="resume-nav">
+  <div class="nav-left">
+    <a href="../../index.html" class="back-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Back to Home
+    </a>
+    <span class="nav-title">Resume - Sirichai Panyakra</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <a href="sirichai_resume_TH-2.html">TH</a>
+      <a href="sirichai_resume_EN-3.html" class="active">EN</a>
+    </div>
+    <button onclick="window.print()" class="download-btn">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+      </svg>
+      Print / Save PDF
+    </button>
+  </div>
+</nav>
+
+<!-- Resume Container -->
+<div class="resume-container">
+<div class="page">
+
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <aside class="sidebar">
+
+    <div class="avatar-wrap">
+      <div class="avatar">SP</div>
+      <div class="name-block">
+        <div class="fullname">Sirichai<br>Panyakra</div>
+        <div class="role-tag">Video Editor · Graphic · UX/UI</div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="s-section">
+      <div class="s-label">Contact</div>
+      <div class="contact-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.95 6.81a19.79 19.79 0 01-3.07-8.57A2 2 0 012.84 0h3a2 2 0 012 1.72c.13.96.36 1.9.69 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.27-1.27a2 2 0 012.11-.45c.91.33 1.85.56 2.81.69A2 2 0 0122 16.92z"/></svg>
+        +66 87-692-3883
+      </div>
+      <div class="contact-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+        oum.30142&#64;gmail.com
+      </div>
+      <div class="contact-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Khlong Thanon, Sai Mai,<br>Bangkok 10220, Thailand
+      </div>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="s-section">
+      <div class="s-label">Personal Info</div>
+      <div class="info-grid">
+        <div class="info-item"><span class="ikey">Gender</span><span class="ival">Male</span></div>
+        <div class="info-item"><span class="ikey">Age</span><span class="ival">28 yrs</span></div>
+        <div class="info-item"><span class="ikey">Status</span><span class="ival">Single</span></div>
+        <div class="info-item"><span class="ikey">Nationality</span><span class="ival">Thai</span></div>
+        <div class="info-item"><span class="ikey">Height</span><span class="ival">173 cm</span></div>
+        <div class="info-item"><span class="ikey">Weight</span><span class="ival">64 kg</span></div>
+      </div>
+    </div>
+
+    <!-- Hard Skills -->
+    <div class="s-section">
+      <div class="s-label">Hard Skills</div>
+      <div style="display:flex;flex-wrap:wrap;gap:1.5mm;">
+        <span style="font-size:7.5pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:600;">Video Editing</span>
+        <span style="font-size:7.5pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:600;">Graphic Design</span>
+        <span style="font-size:7.5pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:600;">Digital Painting</span>
+        <span style="font-size:7.5pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:600;">Live Stream (OBS)</span>
+        <span style="font-size:7.5pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:600;">Ad Creative</span>
+      </div>
+    </div>
+
+    <!-- Language -->
+    <div class="s-section">
+      <div class="s-label">Languages</div>
+      <div class="lang-grid">
+        <div class="lang-row"><span class="lang-name">🇹🇭 Thai</span><span class="lang-level">Native</span></div>
+        <div class="lang-row"><span class="lang-name">🇬🇧 English</span><span class="lang-level">Conversational</span></div>
+      </div>
+    </div>
+
+    <!-- Platforms -->
+    <div class="s-section">
+      <div class="s-label">Platforms</div>
+      <div style="display:flex;flex-wrap:wrap;gap:1.5mm;">
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">Facebook</span>
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">Instagram</span>
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">TikTok</span>
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">YouTube</span>
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">OBS Studio</span>
+        <span style="font-size:7pt;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:.8mm 2.5mm;color:var(--mid);font-weight:500;">TikTok Live</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ═══════════════ MAIN ═══════════════ -->
+  <main class="main">
+
+    <!-- Header -->
+    <div class="header-strip">
+      <h1>Sirichai<br>Panyakra</h1>
+      <div class="sub">Creative Media Professional &nbsp;·&nbsp; 6+ Years in Digital Media Production</div>
+      <div class="headline-chips">
+        <span class="chip">Video Editor</span>
+        <span class="chip">Graphic Designer</span>
+        <span class="chip">UX / UI</span>
+        <span class="chip">Live Stream Operator</span>
+        <span class="chip">Content Creator</span>
+      </div>
+    </div>
+
+    <!-- Target Position & Salary -->
+    <div class="m-section">
+      <div class="m-label">Target Position</div>
+      <div class="target-row">
+        <div class="target-chip"><span class="tc-icon">🎬</span> Video Editor</div>
+        <div class="target-chip"><span class="tc-icon">🎨</span> Graphic Designer</div>
+        <div class="target-chip"><span class="tc-icon">📐</span> UX / UI Designer</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:3mm;flex-wrap:wrap;margin-top:1mm;">
+        <div class="salary-highlight">💰 Expected Salary: 23,000 – 25,000 THB / month</div>
+        <span style="font-size:7pt;color:var(--muted);">📍 Open to all areas in Bangkok &amp; Overseas</span>
+      </div>
+    </div>
+
+    <!-- Work Experience -->
+    <div class="m-section">
+      <div class="m-label">Work Experience</div>
+      <div class="exp-block">
+
+        <!-- Job 1 -->
+        <div class="exp-item">
+          <div class="exp-left">
+            <div class="exp-company">VN VIK NATVARA CO., LTD <span style="font-size:7pt;color:var(--muted);font-weight:400;">(Education Business)</span></div>
+            <div class="exp-title">Editor · Graphic Designer · Live Stream Operator</div>
+            <ul class="exp-duties">
+              <li>Produced and edited video content: English language courses, corporate videos, and e-learning materials</li>
+              <li>Managed and published content across Facebook, Instagram, TikTok, and YouTube</li>
+              <li>Designed ad creatives, banners, infographics, and promotional materials</li>
+              <li>Operated live stream systems on TikTok, Facebook, and Instagram via OBS Studio</li>
+            </ul>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Mar 2023 – Present</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Job 2 -->
+        <div class="exp-item">
+          <div class="exp-left">
+            <div class="exp-company">JIB COMPUTER GROUP</div>
+            <div class="exp-title">Video Editor</div>
+            <ul class="exp-duties">
+              <li>Edited JIB Review and JIB Magazine videos for YouTube and Facebook channels</li>
+              <li>Produced product review content and short-form videos for TikTok and Instagram Reels</li>
+            </ul>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Dec 2021 – Feb 2023</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Job 3 -->
+        <div class="exp-item">
+          <div class="exp-left">
+            <div class="exp-company">M2M INTERTRADE CO., LTD <span style="font-size:7pt;color:var(--muted);font-weight:400;">(Packaging / Perfume)</span></div>
+            <div class="exp-title">Video Editor · Content Creator</div>
+            <ul class="exp-duties">
+              <li>Conceptualized content, wrote storyboards, filmed and edited product videos</li>
+              <li>Designed print advertisements and managed online stores on Shopee, Lazada, and Makewebeasy</li>
+            </ul>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Nov 2020 – Dec 2021</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Job 4 + 5 side by side -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;">
+          <div class="exp-item" style="grid-template-columns:1fr;">
+            <div class="exp-left">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div class="exp-company" style="font-size:7.8pt;">PENTOR GROUP</div>
+                <span class="exp-period">Sep 2019 – Feb 2020</span>
+              </div>
+              <div class="exp-title">Computer Graphic Designer</div>
+              <ul class="exp-duties">
+                <li>Designed graphics, banners, and edited video clips</li>
+                <li>Assisted with on-location photo and video shoots</li>
+              </ul>
+            </div>
+          </div>
+          <div class="exp-item" style="grid-template-columns:1fr;">
+            <div class="exp-left">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div class="exp-company" style="font-size:7.8pt;">SP GRAPHIC</div>
+                <span class="exp-period">May 2018 – Jul 2019</span>
+              </div>
+              <div class="exp-title">Computer Graphic Designer</div>
+              <ul class="exp-duties">
+                <li>Created artwork and layout designs for print media</li>
+                <li>Reviewed and verified artwork files before sending to print</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tools & Expertise -->
+    <div class="m-section">
+      <div class="m-label">Tools &amp; Expertise</div>
+      <div style="display:flex;flex-direction:column;gap:2.5mm;">
+
+        <!-- Video Editing -->
+        <div style="display:flex;align-items:flex-start;gap:3mm;">
+          <div style="flex-shrink:0;min-width:22mm;">
+            <div style="display:flex;align-items:center;gap:1.5mm;">
+              <span style="font-size:8pt;">🎬</span>
+              <span style="font-size:7pt;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;">Video Editing</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:1.5mm;padding-top:.3mm;">
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#9333ea;display:inline-block;flex-shrink:0;"></span>Premiere Pro
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#f59e0b;display:inline-block;flex-shrink:0;"></span>DaVinci Resolve
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#000;display:inline-block;flex-shrink:0;"></span>CapCut
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#00a8e0;display:inline-block;flex-shrink:0;"></span>After Effects
+            </span>
+          </div>
+        </div>
+
+        <!-- Graphic Design -->
+        <div style="display:flex;align-items:flex-start;gap:3mm;">
+          <div style="flex-shrink:0;min-width:22mm;">
+            <div style="display:flex;align-items:center;gap:1.5mm;">
+              <span style="font-size:8pt;">🎨</span>
+              <span style="font-size:7pt;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;">Graphic Design</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:1.5mm;padding-top:.3mm;">
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#31a8ff;display:inline-block;flex-shrink:0;"></span>Photoshop
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#ff9a00;display:inline-block;flex-shrink:0;"></span>Illustrator
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:1.5mm;background:#fff;border:1px solid var(--rule);border-radius:5px;padding:1mm 2.5mm;font-size:7.5pt;font-weight:600;color:var(--mid);">
+              <span style="width:6px;height:6px;border-radius:50%;background:#a259ff;display:inline-block;flex-shrink:0;"></span>Figma
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="m-section">
+      <div class="m-label">Education</div>
+      <div class="edu-row">
+        <div>
+          <div class="edu-school">North Bangkok University</div>
+          <div class="edu-degree">Bachelor's Degree · Multimedia Technology and Animation</div>
+          <div class="edu-gpa">⭐ GPA 2.68</div>
+        </div>
+        <div style="text-align:right;">2020 – 2024</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<!-- Back to Top Button -->
+<button id="backToTop" title="Back to Top">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+  </svg>
+</button>
+
+<style>
+  /* Back to Top Button */
+  #backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  #backToTop:hover {
+    background: #2d2f3a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  #backToTop.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  #backToTop svg {
+    width: 24px;
+    height: 24px;
+  }
+</style>
+
+<script>
+  // Show/hide back to top button based on scroll position
+  window.addEventListener('scroll', function() {
+    const backToTop = document.getElementById('backToTop');
+    if (window.scrollY > 300) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  // Smooth scroll to top function
+  document.getElementById('backToTop').addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+</script>
+
+</body>
+</html>
