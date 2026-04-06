@@ -30,6 +30,32 @@
             transform: translateY(0);
         }
 
+        /* Filter Button - Rounded Border Style */
+        .filter-btn {
+            position: relative;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: color 0.3s ease;
+        }
+
+        /* Rounded border for active state */
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+            pointer-events: none;
+        }
+
+        .filter-btn.active::before {
+            border-color: #000;
+        }
+
 
         /* Lightbox Styles */
         #lightbox {
@@ -207,10 +233,10 @@
         
         <!-- Filter Buttons -->
         <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 text-[10px] tracking-[0.2em] font-semibold">
-            <button class="filter-btn active border-b border-black pb-1" data-filter="all">ALL</button>
-            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="video">VIDEO EDITING</button>
-            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="graphic">GRAPHIC DESIGN</button>
-            <button class="filter-btn text-gray-300 hover:text-black transition pb-1" data-filter="motion">MOTION GRAPHICS</button>
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition" data-filter="video">VIDEO EDITING</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition" data-filter="graphic">GRAPHIC DESIGN</button>
+            <button class="filter-btn text-gray-300 hover:text-black transition" data-filter="motion">MOTION GRAPHICS</button>
         </div>
 
         <!-- Grid Layout (for ALL and GRAPHIC) -->
@@ -1364,10 +1390,10 @@
             btn.addEventListener('click', () => {
                 // Update active state
                 filterBtns.forEach(b => {
-                    b.classList.remove('active', 'border-b', 'border-black');
+                    b.classList.remove('active');
                     b.classList.add('text-gray-300');
                 });
-                btn.classList.add('active', 'border-b', 'border-black');
+                btn.classList.add('active');
                 btn.classList.remove('text-gray-300');
 
                 const filter = btn.dataset.filter;
